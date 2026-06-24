@@ -60,6 +60,8 @@ If your documents are hosted on SharePoint, use the `sync_sharepoint.py` script 
 ### How to execute sync
 The synchronization process requires an isolated Python virtual environment. We have provided a PowerShell wrapper script (`run_sync.ps1`) that will automatically handle installing dependencies, opening the SharePoint login window (if needed), and then sequentially syncing defined Toolkits.
 
+> **Initial Setup Required**: Before running the sync for the first time, you must edit the `run_sync.ps1` script and set the `$SharepointHost` variable to your company's SharePoint host URL (e.g., `company.sharepoint.com`).
+
 1. Open PowerShell and navigate to the sync script directory:
    ```powershell
    cd documentation-mcp\sync_sharepoint
