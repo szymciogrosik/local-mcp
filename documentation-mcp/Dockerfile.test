@@ -1,0 +1,18 @@
+FROM maven:3.9.6-eclipse-temurin-21
+
+# Install Python and dependencies required by the ETL service
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
+    python3-venv \
+    ripgrep \
+    && rm -rf /var/lib/apt/lists/*
+
+# Setup virtual environment and markitdown
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN pip install --no-cache-dir "markitdown[all]"
+
+# Set working directory (will be mapped via volume in docker-compose)
+WORKDIR /app

@@ -1,0 +1,51 @@
+version: "3.8"
+services:
+  init-data:
+    image: ${DOCKER_REGISTRY:-artifactory.local}/documentation-data:${APP_VERSION:-latest}
+    volumes:
+      - jenkins_documents_volume:/shared_docs
+      - jenkins_config_volume:/shared_config
+
+  documentation-mcp:
+    image: ${DOCKER_REGISTRY:-artifactory.local}/documentation-mcp:${APP_VERSION:-latest}
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    ports:
+      - "8383:8080"
+    environment:
+      - CONFIG_SYNC_INTERVAL=PT1M
+      - SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      # Fetched from Data Container
+      - jenkins_config_volume:/app/config
+      - jenkins_config_volume:/app/resources
+      - jenkins_documents_volume:/_documents_copy
+      
+      # Standard volumes
+      - local_mcp_documentation_data:/data
+      - local_mcp_converted_md_files:/app/markdown_output
+    depends_on:
+      init-data:
+        condition: service_completed_successfully
+      documentation-database-qdrant:
+        condition: service_started
+    restart: unless-stopped
+
+  documentation-database-qdrant:
+    # Pull Qdrant from the custom registry (pushed by script) to avoid relying on DockerHub on Jenkins
+    image: ${DOCKER_REGISTRY:-artifactory.local}/qdrant:${APP_VERSION:-latest}
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - local_mcp_qdrant_storage:/qdrant/storage
+    restart: unless-stopped
+
+volumes:
+  jenkins_documents_volume:
+  jenkins_config_volume:
+  local_mcp_documentation_data:
+  local_mcp_converted_md_files:
+  local_mcp_qdrant_storage:

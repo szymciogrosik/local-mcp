@@ -1,0 +1,40 @@
+{
+  "sources": [
+    {
+      "sharepointSync": {
+        "toolkitSourceUrl": "\\\\goto.companyName.com@SSL\\DavWWWRoot\\cases\\GTEXXX\\PROEJCT_PREFIX\\Deliverables",
+        "localDestinationPath": "C:\\_documents_copy\\projectName\\deliverables"
+      },
+      "projectName": "projectName",
+      "searchTags": [
+        "deliverables"
+      ],
+      "mountedPath": "/_documents_copy/projectName/deliverables",
+      "supportedExtensions": [".docx", ".xlsx", ".pptx", ".pdf", ".csv", ".tsv", ".json", ".html", ".xml", ".txt", ".md", ".rtf"],
+      "directoryPrefixes": [
+        "a0100",
+        "a0130",
+        "d0130",
+        "d0160",
+        "d0180",
+        "dd130",
+        "dd160",
+        "o0200",
+        "o0240",
+        "o0300",
+        "o0500",
+        "p0150",
+        "t0500"
+      ]
+    },
+    {
+      "projectName": "projectName",
+      "searchTags": [
+        "local"
+      ],
+      "mountedPath": "/_documents_copy/local",
+      "supportedExtensions": [".docx", ".xlsx", ".pptx", ".pdf", ".csv", ".tsv", ".json", ".html", ".xml", ".txt", ".md", ".rtf"],
+      "directoryPrefixes": []
+    }
+  ]
+}

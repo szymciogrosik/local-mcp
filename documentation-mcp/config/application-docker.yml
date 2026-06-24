@@ -1,0 +1,11 @@
+spring:
+    ai:
+        vectorstore:
+            qdrant:
+                host: documentation-database-qdrant
+                port: 6334
+
+app:
+    config-path: /app/config/mcp-config.json
+    state-path: /data/sync-state.json
+    output-md-dir: /app/markdown_output

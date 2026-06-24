@@ -1,0 +1,32 @@
+server:
+  netty:
+    idle-timeout: 24h
+
+spring:
+  ai:
+    mcp:
+      server:
+        transport: sse
+        name: "documentation"
+        version: "1.0.0"
+        annotation-scanner:
+          enabled: true
+        capabilities:
+          tool: true
+    vectorstore:
+      qdrant:
+        host: localhost
+        port: 6334
+        collection-name: mcp-docs
+
+management:
+  endpoints:
+    web:
+      base-path: /mgmt
+      exposure:
+        include: health
+
+app:
+  config-path: ./config/mcp-config.json
+  state-path: ./local-run/sync-state.json
+  output-md-dir: ./local-run/markdown_output

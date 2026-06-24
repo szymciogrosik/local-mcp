@@ -1,0 +1,10 @@
+FROM alpine:latest
+
+# Files will be prepared by build_and_push.sh script
+COPY ./_documents_copy /data_internal/_documents_copy
+COPY ./config /data_internal/config
+
+# By default, the container copies data to shared volumes attached in docker-compose
+CMD sh -c "cp -rn /data_internal/_documents_copy/* /shared_docs/ 2>/dev/null || true && \
+           cp -rn /data_internal/config/* /shared_config/ 2>/dev/null || true && \
+           echo 'Data copied to shared volumes successfully.'"

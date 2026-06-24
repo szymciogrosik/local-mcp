@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  documentation-mcp-test-runner:
+    build:
+      context: ./documentation-mcp
+      dockerfile: Dockerfile.test
+    volumes:
+      # Mount the documentation-mcp directory into /app so tests run against the latest code
+      - ./documentation-mcp:/app
+      # Mount the Docker socket so Testcontainers inside the Java tests can spin up Qdrant
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Cache maven dependencies so they aren't downloaded every time
+      - mcp_test_maven_cache:/root/.m2
+    working_dir: /app
+    # Run Maven tests
+    command: mvn clean test
+    # Required for Docker-in-Docker / Testcontainers depending on host OS setups
+    environment:
+      - TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
+
+volumes:
+  mcp_test_maven_cache:
