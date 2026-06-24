@@ -38,18 +38,18 @@ A helper script is provided in `_artifactory_build/build_and_push.sh` to automat
 
 1. First, authenticate with your Docker registry:
    ```bash
-   docker login skatdias-dev-docker.repo.netcompany.com
+   docker login your-repository
    ```
 2. Execute the script providing your Docker registry. By default, it will use the `latest` tag:
    ```bash
-   ./_artifactory_build/build_and_push.sh skatdias-dev-docker.repo.netcompany.com
+   ./_artifactory_build/build_and_push.sh your-repository
    ```
    *(If you omit the registry parameter, the script will default to a placeholder `artifactory.local`, which will fail on push).*
 
 ### Running on Jenkins
 On the Jenkins server, you must provide your registry as an environment variable before running the compose file:
 ```bash
-export DOCKER_REGISTRY=skatdias-dev-docker.repo.netcompany.com
+export DOCKER_REGISTRY=your-repository
 docker-compose -f docker-compose.offline.yml up -d
 ```
 *(Jenkins will pull your newest pushed images)*
