@@ -17,7 +17,7 @@ The `documentation-mcp` container relies on its own `mcp-config.json` file locat
 {
   "sources": [
     {
-        "sharepointSync": {
+        "sharepointFilesSync": {
             "toolkitSourceUrl": "\\\\goto.companyName.com@SSL\\DavWWWRoot\\cases\\GTEXXX\\PROJECT\\Deliverables",
             "localDestinationPath": "C:\\_documents_copy\\projectName\\deliverables"
         },
@@ -29,6 +29,14 @@ The `documentation-mcp` container relies on its own `mcp-config.json` file locat
         "mountedPath": "/_documents_copy/projectName/Deliverables",
         "supportedExtensions": [".docx", ".xlsx", ".pptx", ".pdf", ".csv", ".tsv", ".json", ".html", ".xml", ".txt", ".md", ".rtf"],
         "directoryPrefixes": ["a0130", "a0140", "c0200", "d0130", "d0160", "d0180", "dd120", "dd130", "dd160", "o0200", "o0240", "o0300", "o0500", "p0150", "t0500"]
+    },
+    {
+      "sharepointGlossarySync": {
+        "listUrl": "https://goto.netcompany.com/cases/GTEXXX/PROJECT/Lists/Glossary/AllItems.aspx",
+        "apiUrl": "https://goto.netcompany.com/cases/GTEXXX/PROJECT/_api/web/lists/getbytitle('Glossary')/items",
+        "localDestinationPath": "C:\\_documents_copy\\projectName\\glossary\\glossary.csv"
+      },
+      "mountedPath": "/_documents_copy/projectName/glossary"
     }
   ]
 }

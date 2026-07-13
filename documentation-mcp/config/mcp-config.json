@@ -1,7 +1,7 @@
 {
   "sources": [
     {
-      "sharepointSync": {
+      "sharepointFilesSync": {
         "toolkitSourceUrl": "\\\\goto.companyName.com@SSL\\DavWWWRoot\\cases\\GTEXXX\\PROEJCT_PREFIX\\Deliverables",
         "localDestinationPath": "C:\\_documents_copy\\projectName\\deliverables"
       },
@@ -26,6 +26,21 @@
         "p0150",
         "t0500"
       ]
+    },
+    {
+      "sharepointGlossarySync": {
+        "listUrl": "https://goto.netcompany.com/cases/GTEXXX/PROEJCT_PREFIX/Lists/Glossary/AllItems.aspx",
+        "apiUrl": "https://goto.netcompany.com/cases/GTEXXX/PROEJCT_PREFIX/_api/web/lists/getbytitle('Glossary')/items",
+        "localDestinationPath": "C:\\_documents_copy\\dias\\glossary\\glossary.csv"
+      },
+      "searchTags": [
+        "glossary",
+        "translation",
+        "term"
+      ],
+      "mountedPath": "/_documents_copy/projectName/glossary",
+      "supportedExtensions": [".docx", ".xlsx", ".pptx", ".pdf", ".csv", ".tsv", ".json", ".html", ".xml", ".txt", ".md", ".rtf"],
+      "directoryPrefixes": []
     },
     {
       "projectName": "projectName",

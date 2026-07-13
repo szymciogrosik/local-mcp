@@ -8,9 +8,9 @@ $reqFile = Join-Path $scriptDir "requirements.txt"
 $syncScript = Join-Path $scriptDir "src\run_sync.py"
 
 $startTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Write-Host "=================================================================================="
+Write-Host "==================================================================================="
 Write-Host " Sync documents execution between local and Sharepoint started: $startTime"
-Write-Host "=================================================================================="
+Write-Host "==================================================================================="
 
 Write-Host "Ensuring virtual environment exists..."
 if (-not (Test-Path -Path $venvDir)) {
@@ -35,7 +35,13 @@ Write-Host "Installing dependencies..."
 Write-Host "Running synchronization..."
 & py $syncScript --host $SharepointHost 2>&1 | Write-Host
 
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "`nAll python synchronizations completed successfully."
+} else {
+    Write-Host "`nPython sync finished with errors."
+}
+
 $endTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Write-Host "=================================================================================="
+Write-Host "==================================================================================="
 Write-Host " Sync documents execution between local and Sharepoint finished: $endTime"
-Write-Host "=================================================================================="
+Write-Host "==================================================================================="
