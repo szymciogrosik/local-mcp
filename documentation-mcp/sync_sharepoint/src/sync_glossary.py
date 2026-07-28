@@ -27,8 +27,8 @@ def on_loaded(window):
   current_url = window.get_current_url()
   print(f"[DEBUG] on_loaded fired! Current URL: {current_url}")
 
-  # As long as we are on the netcompany domain, we can fetch
-  if current_url and 'goto.netcompany.com' in current_url:
+  # As long as we are on the your_company domain, we can fetch
+  if current_url and 'goto.your_company.com' in current_url:
     has_fetched = True
     print(f"Page loaded ({current_url}). Fetching list data via internal API...")
     js_code = f"""
@@ -47,7 +47,7 @@ def on_loaded(window):
         """
     window.evaluate_js(js_code)
   else:
-    print("[DEBUG] URL did not match goto.netcompany.com, waiting for redirect or login...")
+    print("[DEBUG] URL did not match goto.your_company.com, waiting for redirect or login...")
 
 class Api:
   def receive_error(self, err):

@@ -29,8 +29,8 @@
     },
     {
       "sharepointGlossarySync": {
-        "listUrl": "https://goto.netcompany.com/cases/GTEXXX/PROEJCT_PREFIX/Lists/Glossary/AllItems.aspx",
-        "apiUrl": "https://goto.netcompany.com/cases/GTEXXX/PROEJCT_PREFIX/_api/web/lists/getbytitle('Glossary')/items",
+        "listUrl": "https://goto.your_company.com/cases/GTEXXX/PROEJCT_PREFIX/Lists/Glossary/AllItems.aspx",
+        "apiUrl": "https://goto.your_company.com/cases/GTEXXX/PROEJCT_PREFIX/_api/web/lists/getbytitle('Glossary')/items",
         "localDestinationPath": "C:\\_documents_copy\\dias\\glossary\\glossary.csv"
       },
       "searchTags": [

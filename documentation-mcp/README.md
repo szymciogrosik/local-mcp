@@ -9,6 +9,9 @@ This document provides a deep dive into the inner workings, architecture, and av
 
 ## Configuration
 
+### Replace your_company Property
+Replace `your_company` by actual name of your company in the entire directory.
+
 ### `mcp-config.json`
 The `documentation-mcp` container relies on its own `mcp-config.json` file located in its mapped config directory.
 
@@ -32,8 +35,8 @@ The `documentation-mcp` container relies on its own `mcp-config.json` file locat
     },
     {
       "sharepointGlossarySync": {
-        "listUrl": "https://goto.netcompany.com/cases/GTEXXX/PROJECT/Lists/Glossary/AllItems.aspx",
-        "apiUrl": "https://goto.netcompany.com/cases/GTEXXX/PROJECT/_api/web/lists/getbytitle('Glossary')/items",
+        "listUrl": "https://goto.your_company.com/cases/GTEXXX/PROJECT/Lists/Glossary/AllItems.aspx",
+        "apiUrl": "https://goto.your_company.com/cases/GTEXXX/PROJECT/_api/web/lists/getbytitle('Glossary')/items",
         "localDestinationPath": "C:\\_documents_copy\\projectName\\glossary\\glossary.csv"
       },
       "mountedPath": "/_documents_copy/projectName/glossary"
