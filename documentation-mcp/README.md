@@ -14,6 +14,7 @@ Replace `your_company` by actual name of your company in the entire directory.
 
 ### `mcp-config.json`
 The `documentation-mcp` container relies on its own `mcp-config.json` file located in its mapped config directory.
+Copy-paste the `mcp-config-example.json` as `mcp-config.json` and fill it.
 
 **Example Configuration:**
 ```json
