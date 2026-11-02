@@ -9,14 +9,26 @@ This document provides a deep dive into the inner workings, architecture, and av
 
 ## Configuration
 
-### Replace your_company Property
-Replace `your_company` by actual name of your company in the entire directory.
+### 1. `mcp-config.json` (Server & Document Sources)
+The `documentation-mcp` container relies on its own `mcp-config.json` file located in its mapped config directory (`documentation-mcp/config/`).
+Copy-paste `mcp-config-example.json` as `mcp-config.json` and fill it with your source paths and project settings. Note that `mcp-config-example.json` is provided as an example template and does not need to be modified directly.
 
-### `mcp-config.json`
-The `documentation-mcp` container relies on its own `mcp-config.json` file located in its mapped config directory.
-Copy-paste the `mcp-config-example.json` as `mcp-config.json` and fill it.
+### 2. `sync-config.json` (SharePoint Synchronization)
+For SharePoint documents and glossary synchronization, configure your company identifier in the sync directory (`documentation-mcp/sync_sharepoint/`):
+1. Copy-paste `sync-config-example.json` as `sync-config.json`:
+   ```powershell
+   cd documentation-mcp\sync_sharepoint
+   Copy-Item sync-config-example.json sync-config.json
+   ```
+2. Open `sync-config.json` and replace `"your_company"` with your actual company name:
+   ```json
+   {
+     "your_company": "<actual_company_name>"
+   }
+   ```
+The sync tools (`run_sync.ps1`, `run_sync.py`, and `sync_glossary.py`) will automatically read this configuration.
 
-**Example Configuration:**
+**Example `mcp-config.json` Configuration:**
 ```json
 {
   "sources": [
@@ -72,7 +84,7 @@ If your documents are hosted on SharePoint, use the `sync_sharepoint.py` script 
 ### How to execute sync
 The synchronization process requires an isolated Python virtual environment. We have provided a PowerShell wrapper script (`run_sync.ps1`) that will automatically handle installing dependencies, opening the SharePoint login window (if needed), and then sequentially syncing defined Toolkits.
 
-> **Initial Setup Required**: Before running the sync for the first time, you must edit the `run_sync.ps1` script and set the `$SharepointHost` variable to your company's SharePoint host URL (e.g., `company.sharepoint.com`).
+> **Initial Setup Required**: Before running the sync for the first time, copy `sync-config-example.json` to `sync-config.json` in `documentation-mcp\sync_sharepoint\` and replace `"your_company"` with your actual company name (e.g. `"your_company": "mycompany"`). The synchronization scripts will automatically use this value for authentication and domain verification.
 
 1. Open PowerShell and navigate to the sync script directory:
    ```powershell

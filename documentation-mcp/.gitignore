@@ -1,3 +1,4 @@
 /target/
 /local-run/
 /config/mcp-config.json
+/sync_sharepoint/sync-config.json

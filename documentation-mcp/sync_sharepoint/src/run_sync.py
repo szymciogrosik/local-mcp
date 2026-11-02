@@ -8,10 +8,25 @@ from auth_sharepoint import authenticate
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_FILE = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "config", "mcp-config.json"))
+SYNC_CONFIG_FILE = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "sync-config.json"))
+SYNC_CONFIG_EXAMPLE_FILE = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "sync-config-example.json"))
+
+def load_sync_config():
+  for path in [SYNC_CONFIG_FILE, SYNC_CONFIG_EXAMPLE_FILE]:
+    if os.path.exists(path):
+      try:
+        with open(path, "r", encoding="utf-8") as f:
+          return json.load(f)
+      except Exception:
+        pass
+  return {}
 
 def main():
+  sync_config = load_sync_config()
+  company = sync_config.get("your_company")
+
   parser = argparse.ArgumentParser()
-  parser.add_argument("--host", default="company.sharepoint.com")
+  parser.add_argument("--host", default=None)
   args = parser.parse_args()
 
   if not os.path.exists(CONFIG_FILE):
@@ -38,16 +53,33 @@ def main():
   else:
     first_source = first_source_config["sharepointGlossarySync"]["listUrl"]
 
+  fallback_host = args.host
+  if not fallback_host:
+    if company and company != "your_company":
+      fallback_host = company if "." in company else f"{company}.sharepoint.com"
+    else:
+      fallback_host = "company.sharepoint.com"
+
+  test_path = None
+  auth_url = None
+
   if "://" in first_source:
     host = first_source.split("://")[1].split("/")[0]
+    auth_url = first_source
   else:
     path_parts = [p for p in first_source.replace('\\', '/').split('/') if p]
-    host = path_parts[0].split('@')[0] if path_parts else args.host
+    host = path_parts[0].split('@')[0] if path_parts else fallback_host
+    test_path = first_source
+    if len(path_parts) > 2 and path_parts[1].lower() == 'davwwwroot':
+      web_path = "/" + "/".join(path_parts[2:])
+      auth_url = f"https://{host}{web_path}"
+    else:
+      auth_url = f"https://{host}"
 
   window_title = "Sync files with Toolkit - SharePoint Login Required"
 
   print(f"Step 1: Authenticating to SharePoint ({host})...")
-  authenticate(host, window_title=window_title)
+  authenticate(host, auth_url=auth_url, test_path=test_path, window_title=window_title)
 
   # 2. Run syncs dynamically in parallel
   def run_single_sync(idx, source_config):
@@ -60,12 +92,16 @@ def main():
         api_url = sync_data["apiUrl"]
         dest = sync_data["localDestinationPath"]
 
-        result = subprocess.run([
+        cmd = [
           sys.executable, os.path.join(SCRIPT_DIR, "sync_glossary.py"),
           "--dest", dest,
           "--api-url", api_url,
           "--list-url", list_url
-        ], check=True, capture_output=True, text=True)
+        ]
+        if company:
+          cmd.extend(["--company", company])
+
+        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
       else:
         sync_data = source_config.get("sharepointFilesSync")
         source_path = sync_data["toolkitSourceUrl"]

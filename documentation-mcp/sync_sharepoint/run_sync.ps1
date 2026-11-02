@@ -1,11 +1,31 @@
-$ErrorActionPreference = "Continue"
+param (
+    [string]$SharepointHost = ""
+)
 
-$SharepointHost = "company.sharepoint.com"
+$ErrorActionPreference = "Continue"
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $venvDir = Join-Path $scriptDir "venv"
 $reqFile = Join-Path $scriptDir "requirements.txt"
 $syncScript = Join-Path $scriptDir "src\run_sync.py"
+$syncConfigFile = Join-Path $scriptDir "sync-config.json"
+$syncConfigExampleFile = Join-Path $scriptDir "sync-config-example.json"
+
+if (-not $SharepointHost) {
+    $configPath = if (Test-Path $syncConfigFile) { $syncConfigFile } elseif (Test-Path $syncConfigExampleFile) { $syncConfigExampleFile } else { $null }
+    if ($configPath) {
+        try {
+            $syncJson = Get-Content $configPath -Raw | ConvertFrom-Json
+            if ($syncJson.your_company -and $syncJson.your_company -ne "your_company") {
+                $comp = $syncJson.your_company
+                $SharepointHost = if ($comp -like "*.*") { $comp } else { "$comp.sharepoint.com" }
+            }
+        } catch {}
+    }
+}
+if (-not $SharepointHost) {
+    $SharepointHost = "company.sharepoint.com"
+}
 
 $startTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 Write-Host "==================================================================================="
